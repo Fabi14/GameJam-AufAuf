@@ -1,3 +1,4 @@
+#include "olcPGEX_SplashScreen.h"
 #include "Player.h"
 #include "olcPGEX_Sound.h"
 #include "olcPixelGameEngine.h"
@@ -53,5 +54,7 @@ private:
 
 	std::vector<Player> m_vecPlayer;
 	std::optional<int> m_win{ std::nullopt };
+
+	olc::SplashScreen spash;
 };
 
