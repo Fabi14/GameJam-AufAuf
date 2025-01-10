@@ -52,5 +52,6 @@ private:
 	RandomMovePos m_weckerPos;
 
 	std::vector<Player> m_vecPlayer;
+	std::optional<int> m_win{ std::nullopt };
 };
 
