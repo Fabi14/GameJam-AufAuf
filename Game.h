@@ -1,6 +1,6 @@
-#include "olcPGEX_SplashScreen.h"
+#include "extensions\olcPGEX_SplashScreen.h"
 #include "Player.h"
-#include "olcPGEX_Sound.h"
+#include "extensions\olcPGEX_Sound.h"
 #include "olcPixelGameEngine.h"
 
 constexpr int gameW{ 1920 };

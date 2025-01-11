@@ -1,2 +1,2 @@
 #define OLC_PGEX_SOUND
-#include "olcPGEX_Sound.h"
+#include "extensions/olcPGEX_Sound.h"

@@ -47,17 +47,5 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="olcPGEX_Gamepad.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="olcPGEX_Sound.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="olcPGEX_SplashScreen.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="olcPixelGameEngine.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
