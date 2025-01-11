@@ -7,10 +7,6 @@ bool Menu::OnUserCreate()
     return false;
 }
 
-void Menu::onLoad()
-{
-}
-
 std::unique_ptr<Level> Menu::OnUserUpdate(float fElapsedTime)
 {
     m_pge->Clear(olc::BLACK);

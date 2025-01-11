@@ -6,15 +6,9 @@
 
 bool PlayerSelect::OnUserCreate()
 {
-    m_pge->m_vecPlayer.emplace_back(std::make_unique<Player>(Input{KeyBinding_WASD, m_pge}, olc::BLACK, "assets\\HandLeft.png" , olc::vd2d{500.,500.}));
-    m_pge->m_vecPlayer.emplace_back(std::make_unique<Player>(Input{KeyBinding_Arrows, m_pge},olc::BLACK, "assets\\HandRight.png", olc::vd2d{700.,500.} ));
+    m_pge->m_vecPlayer.emplace_back(std::make_unique<Player>(Input{KeyBinding_WASD, m_pge}, olc::RED, "assets\\HandLeft.png" , olc::vd2d{500.,500.}));
+    m_pge->m_vecPlayer.emplace_back(std::make_unique<Player>(Input{KeyBinding_Arrows, m_pge},olc::BLUE, "assets\\HandRight.png", olc::vd2d{700.,500.} ));
     return true;
-}
-
-void PlayerSelect::onLoad()
-{
-
-
 }
 
 std::unique_ptr<Level> PlayerSelect::OnUserUpdate(float fElapsedTime)

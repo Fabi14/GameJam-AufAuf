@@ -8,7 +8,6 @@ public:
 	PlayerSelect(Game* pge) : Level{ pge } {}
 
 	virtual bool OnUserCreate() override;
-	virtual void onLoad() override;
 	virtual std::unique_ptr<Level> OnUserUpdate(float fElapsedTime) override;
 
 private:

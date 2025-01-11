@@ -15,15 +15,7 @@ public:
 	}
 	std::optional<olc::vd2d> handleInput(olc::PixelGameEngine* pge, float fElapsedTime);
 
-	void onDraw(olc::PixelGameEngine* pge) const
-	{
-		if (blockTime > 0.)
-		{
-			pge->DrawDecal(m_pos, m_imageCursor.Decal(), { 1.f, 1.f }, olc::DARK_GREY );
-			return;
-		}
-		pge->DrawDecal(m_pos, m_imageCursor.Decal(), { 1.f,1.f }, m_isActive ? olc::WHITE: olc::GREY);
-	}
+	void onDraw(olc::PixelGameEngine* pge) const;
 
 	void setActive()
 	{
@@ -48,6 +40,11 @@ public:
 	int getPoints() const
 	{
 		return points;
+	}
+
+	olc::Pixel getColor()
+	{
+		return m_tint;
 	}
 
 private:

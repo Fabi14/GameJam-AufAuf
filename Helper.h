@@ -1,8 +1,6 @@
 #pragma once
 #include <olcPixelGameEngine.h>
 
-
-
 inline olc::vd2d calcCenter(const olc::Renderable& renderable)
 {
 	if (renderable.Sprite())

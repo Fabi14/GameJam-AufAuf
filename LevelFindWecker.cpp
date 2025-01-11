@@ -15,10 +15,6 @@ bool LevelFindWecker::OnUserCreate()
     return true;
 }
 
-void LevelFindWecker::onLoad()
-{
-}
-
 std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 {
 	onDraw();
@@ -83,7 +79,7 @@ void LevelFindWecker::onDraw()
 	for (const auto& [i,player] : std::views::enumerate(m_pge->m_vecPlayer))
 	{
 		player->onDraw(m_pge);
-		m_pge->DrawStringDecal({ 100.f+100.f*i,1000.f }, std::to_string(player->getPoints()), olc::RED, {10.,10.});
+		m_pge->DrawStringDecal({ 100.f+500.f*i,1000.f }, std::to_string(player->getPoints()), player->getColor(), {10.,10.});
 	}
 
 	if (m_win)
