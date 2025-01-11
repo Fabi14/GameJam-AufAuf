@@ -12,6 +12,10 @@ public:
 	{
 		return pos;
 	}
+	olc::vd2d getDir()const
+	{
+		return v;
+	}
 
 private:
 	olc::vd2d pos{ static_cast<double>(std::rand() * 1920 / RAND_MAX),  static_cast<double>(std::rand() * 1080 / RAND_MAX) };

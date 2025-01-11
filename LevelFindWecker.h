@@ -22,7 +22,8 @@ private:
 	std::vector<RandomMovePos> m_vecSheepPos;
 	std::optional<RandomMovePos> m_weckerPos;
 
-	std::vector<Player> m_vecPlayer;
 	std::optional<int> m_win{ std::nullopt };
+
+	double timer{ 60. };
 };
 

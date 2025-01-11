@@ -6,9 +6,10 @@
 class Player
 {
 public:
-	Player(const Input& keyBindings, olc::Pixel tint, std::string imagePath)
+	Player(const Input& keyBindings, olc::Pixel tint, std::string imagePath, olc::vd2d pos)
 		: m_input{ keyBindings },
-			m_tint{tint}
+		m_pos{pos},
+		m_tint{tint}
 	{
 		m_imageCursor.Load(imagePath);
 	}
@@ -22,12 +23,18 @@ public:
 			return;
 		}
 
-		pge->DrawDecal(m_pos, m_imageCursor.Decal(), {1.f,1.f});
+		pge->DrawDecal(m_pos, m_imageCursor.Decal(), {1.f,1.f}, m_tint);
 	}
 
-	olc::Pixel getColor()
+	void setActive()
 	{
-		return m_tint;
+		m_tint = olc::WHITE;
+		m_isActive = true;
+	}
+
+	bool isActive() const
+	{
+		return m_isActive;
 	}
 
 	void block()
@@ -41,6 +48,7 @@ private:
 	olc::Pixel m_tint;
 	Input m_input;
 	double m_speed{ 0 };
+	bool m_isActive{ false };
 
 	double blockTime{0.};
 };

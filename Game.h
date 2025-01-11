@@ -22,7 +22,7 @@ public:
 	bool OnUserUpdate(float fElapsedTime) override;
 
 	olc::Renderable m_imageRoom;
-
+	std::vector<Player> m_vecPlayer;
 private:
 	olc::SplashScreen spash;
 

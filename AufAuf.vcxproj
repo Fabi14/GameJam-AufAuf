@@ -142,6 +142,7 @@
     <ClCompile Include="olcPGEX_SplashScreen.cpp" />
     <ClCompile Include="olcPixelGameEngine.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerSelect.cpp" />
     <ClCompile Include="RandomMovePos.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="LevelFindWecker.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerSelect.h" />
     <ClInclude Include="RandomMovePos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
