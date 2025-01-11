@@ -1,32 +1,8 @@
+#include "RandomMovePos.h"
 #include "extensions\olcPGEX_SplashScreen.h"
 #include "Player.h"
 #include "extensions\olcPGEX_Sound.h"
 #include "olcPixelGameEngine.h"
-
-constexpr int gameW{ 1920 };
-constexpr int gameH{ 1080 };
-
-struct RandomMovePos
-{
-	void onUpdate(float fElapsedTime)
-	{
-		pos += v * fElapsedTime * speed;
-
-		//change dir
-		if (pos.x < 0 || pos.x > gameW)
-		{
-			v.x *= -1;
-		}
-		if (pos.y < 0 || pos.y > gameH)
-		{
-			v.y *= -1;
-		}
-	}
-
-	olc::vd2d pos{ static_cast<double>(std::rand() * 1920 / RAND_MAX),  static_cast<double>(std::rand() * 1080 / RAND_MAX) };
-	olc::vd2d v{olc::vd2d{static_cast<double>(std::rand())*2. / RAND_MAX-1.,static_cast<double>(std::rand())*2. / RAND_MAX-1.}.norm()};
-	double speed{ 70. };
-};
 
 #pragma once
 class Game : public olc::PixelGameEngine
