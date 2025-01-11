@@ -11,5 +11,7 @@ public:
 	virtual bool OnUserCreate() override;
 	virtual std::unique_ptr<Level> OnUserUpdate(float fElapsedTime) override;
 
+private:
+	olc::Renderable m_imageTitle;
 };
 

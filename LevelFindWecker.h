@@ -24,5 +24,7 @@ private:
 	std::optional<int> m_win{ std::nullopt };
 
 	double timer{ 60. };
+
+	int audioSamplehungrysheep{ -1 };
 };
 

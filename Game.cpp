@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "olcPGEX_Gamepad/olcPGEX_Gamepad.h"
 #include "Helper.h"
-
+#include "extensions/olcPGEX_Sound.h"
 
 bool Game::OnUserCreate()
 {
@@ -11,6 +11,10 @@ bool Game::OnUserCreate()
 
 	olc::GamePad::init();
 	m_currentLevel->OnUserCreate();
+
+	olc::SOUND::InitialiseAudio();
+	
+
 	return true;
 }
 
@@ -18,6 +22,7 @@ bool Game::OnUserUpdate(float fElapsedTime)
 {
 	if (GetKey(olc::ESCAPE).bPressed)
 	{
+		olc::SOUND::DestroyAudio();
 		return false;
 	}
 

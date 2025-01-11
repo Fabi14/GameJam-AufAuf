@@ -29,5 +29,7 @@ private:
 	olc::GamePad* gamepad = nullptr;
 
 	std::unique_ptr<Level> m_currentLevel{ std::make_unique<Menu>(this) };
+
+	int audioSampleId{-1};
 };
 

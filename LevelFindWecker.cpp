@@ -2,6 +2,7 @@
 #include "Helper.h"
 #include "Game.h"
 #include <ranges>
+#include "Scoreboard.h"
 
 bool LevelFindWecker::OnUserCreate()
 {
@@ -12,6 +13,8 @@ bool LevelFindWecker::OnUserCreate()
 	std::generate_n(std::back_inserter(m_vecSheepPos), 100, [&]() {return RandomMovePos{ m_imageSheep.Sprite()->Size() }; });
 	m_weckerPos = RandomMovePos{ m_imageWecker.Sprite()->Size() };
 
+	audioSamplehungrysheep = olc::SOUND::LoadAudioSample("assets\\hungrysheep-61124.wav");
+	olc::SOUND::PlaySample(audioSamplehungrysheep,true);
     return true;
 }
 
@@ -25,9 +28,13 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 	timer -= fElapsedTime;
 	if (timer < 0.)
 	{
-		auto nextLevel = std::make_unique<Menu>(m_pge);
-		nextLevel->OnUserCreate();
-		return nextLevel;
+		auto scoreBoard = std::make_unique<Scoreboard>(m_pge);
+		scoreBoard->OnUserCreate();
+
+		using namespace std::views;
+		scoreBoard->addPoints(m_pge->m_vecPlayer | transform([](const auto& p) {return Score{ p->getPoints(), p->getColor() }; }) | std::ranges::to<std::vector>());
+		olc::SOUND::StopSample(audioSamplehungrysheep);
+		return scoreBoard;
 	}
 
 
@@ -46,6 +53,7 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 			auto max = m_weckerPos->getPos() + 0.5 * olc::vd2d{ static_cast<double>(m_imageWecker.Sprite()->width),static_cast<double>(m_imageWecker.Sprite()->height) };
 			if (pos->x > min.x && pos->x < max.x && pos->y > min.y && pos->y < max.y)
 			{
+				timer += 5;
 				m_win = i;
 				m_pge->m_vecPlayer[i]->addPoint();
 			}
@@ -53,7 +61,7 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 			{
 				m_pge->m_vecPlayer[i]->block();
 			}
-		}
+		} 
 	}
 
     return nullptr;
@@ -84,15 +92,8 @@ void LevelFindWecker::onDraw()
 
 	if (m_win)
 	{
-		if (*m_win == 0)
-		{
-			m_pge->DrawStringDecal({ 800.,300. }, "WIN", olc::RED, { 20.,20. });
-		}
-		else
-		{
-			m_pge->DrawStringDecal({ 300.,300. }, "WIN", olc::BLUE, { 20.,20. });
-		}
-		
+		m_pge->DrawStringDecal({ 800.,300. }, "WIN", m_pge->m_vecPlayer[*m_win]->getColor(), {20.,20.});
+
 		m_pge->DrawStringDecal(olc::vd2d{ 900.,1000. }, "SPACE", olc::DARK_GREY, { 5.f,5.f });
 
 		if (m_pge->GetKey(olc::SPACE).bPressed)
