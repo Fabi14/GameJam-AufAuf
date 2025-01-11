@@ -1,6 +1,7 @@
 #include "LevelFindWecker.h"
 #include "Helper.h"
 #include "Game.h"
+#include <ranges>
 
 bool LevelFindWecker::OnUserCreate()
 {
@@ -42,7 +43,7 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 
 	for (int i = 0; i < m_pge->m_vecPlayer.size(); ++i)
 	{
-		auto pos = m_pge->m_vecPlayer[i].handleInput(m_pge, fElapsedTime);
+		auto pos = m_pge->m_vecPlayer[i]->handleInput(m_pge, fElapsedTime);
 		if (pos)
 		{
 			auto min = m_weckerPos->getPos() - 0.5 * olc::vd2d{ static_cast<double>(m_imageWecker.Sprite()->width),static_cast<double>(m_imageWecker.Sprite()->height) };
@@ -50,10 +51,11 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 			if (pos->x > min.x && pos->x < max.x && pos->y > min.y && pos->y < max.y)
 			{
 				m_win = i;
+				m_pge->m_vecPlayer[i]->addPoint();
 			}
 			else
 			{
-				m_pge->m_vecPlayer[i].block();
+				m_pge->m_vecPlayer[i]->block();
 			}
 		}
 	}
@@ -78,9 +80,10 @@ void LevelFindWecker::onDraw()
 			m_pge->DrawDecal(sheepPos.getPos() - offset, m_imageSheep.Decal(), scale);
 		}
 	}
-	for (const auto& player : m_pge->m_vecPlayer)
+	for (const auto& [i,player] : std::views::enumerate(m_pge->m_vecPlayer))
 	{
-		player.onDraw(m_pge);
+		player->onDraw(m_pge);
+		m_pge->DrawStringDecal({ 100.f+100.f*i,1000.f }, std::to_string(player->getPoints()), olc::RED, {10.,10.});
 	}
 
 	if (m_win)

@@ -1,11 +1,13 @@
 #include "PlayerSelect.h"
 #include "Game.h"
 #include <ranges>
+#include <memory>
+#include "Player.h"
 
 bool PlayerSelect::OnUserCreate()
 {
-    m_pge->m_vecPlayer.push_back(Player{ Input{KeyBinding_WASD, m_pge}, olc::BLACK, "assets\\HandLeft.png" , {500.,500.} });
-    m_pge->m_vecPlayer.push_back(Player{ Input{KeyBinding_Arrows, m_pge},olc::BLACK, "assets\\HandRight.png",{700.,500.} });
+    m_pge->m_vecPlayer.emplace_back(std::make_unique<Player>(Input{KeyBinding_WASD, m_pge}, olc::BLACK, "assets\\HandLeft.png" , olc::vd2d{500.,500.}));
+    m_pge->m_vecPlayer.emplace_back(std::make_unique<Player>(Input{KeyBinding_Arrows, m_pge},olc::BLACK, "assets\\HandRight.png", olc::vd2d{700.,500.} ));
     return true;
 }
 
@@ -22,7 +24,7 @@ std::unique_ptr<Level> PlayerSelect::OnUserUpdate(float fElapsedTime)
 
     for (const auto& player : m_pge->m_vecPlayer)
     {
-        player.onDraw(m_pge);
+        player->onDraw(m_pge);
     }
 
     m_pge->DrawStringDecal({ 550.,400. }, "E", olc::GREY, {5.f,5.f});
@@ -31,13 +33,13 @@ std::unique_ptr<Level> PlayerSelect::OnUserUpdate(float fElapsedTime)
 
     for (const auto& player : m_pge->m_vecPlayer)
     {
-        player.onDraw(m_pge);
+        player->onDraw(m_pge);
     }
     for (auto& player : m_pge->m_vecPlayer)
     {
-        if (player.handleInput(m_pge, fElapsedTime))
+        if (player->handleInput(m_pge, fElapsedTime))
         {
-            player.setActive(); 
+            player->setActive();
             m_canStart = true;
         }
     }
@@ -51,7 +53,7 @@ std::unique_ptr<Level> PlayerSelect::OnUserUpdate(float fElapsedTime)
     {
         auto nextLevel = std::make_unique<LevelFindWecker>(m_pge);
         nextLevel->OnUserCreate();
-        std::erase_if(m_pge->m_vecPlayer, [](const Player& player) { return !player.isActive(); });
+        std::erase_if(m_pge->m_vecPlayer, [](const auto& player) { return player && !player->isActive(); });
         return nextLevel;
     }
 

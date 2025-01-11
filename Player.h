@@ -22,13 +22,11 @@ public:
 			pge->DrawDecal(m_pos, m_imageCursor.Decal(), { 1.f, 1.f }, olc::DARK_GREY );
 			return;
 		}
-
-		pge->DrawDecal(m_pos, m_imageCursor.Decal(), {1.f,1.f}, m_tint);
+		pge->DrawDecal(m_pos, m_imageCursor.Decal(), { 1.f,1.f }, m_isActive ? olc::WHITE: olc::GREY);
 	}
 
 	void setActive()
 	{
-		m_tint = olc::WHITE;
 		m_isActive = true;
 	}
 
@@ -42,6 +40,16 @@ public:
 		blockTime = 1.;
 	}
 
+	void addPoint()
+	{
+		points++;
+	}
+
+	int getPoints() const
+	{
+		return points;
+	}
+
 private:
 	olc::Renderable m_imageCursor;
 	olc::vd2d m_pos{100,100};
@@ -51,5 +59,7 @@ private:
 	bool m_isActive{ false };
 
 	double blockTime{0.};
+
+	int points{0};
 };
 
