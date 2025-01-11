@@ -6,22 +6,33 @@
 class Player
 {
 public:
-	Player(const Input& keyBindings, olc::Pixel tint)
+	Player(const Input& keyBindings, olc::Pixel tint, std::string imagePath)
 		: m_input{ keyBindings },
 			m_tint{tint}
 	{
-		m_imageCursor.Load("assets\\Hand.png");
+		m_imageCursor.Load(imagePath);
 	}
 	std::optional<olc::vd2d> handleInput(olc::PixelGameEngine* pge, float fElapsedTime);
 
 	void onDraw(olc::PixelGameEngine* pge) const
 	{
-		pge->DrawDecal(m_pos, m_imageCursor.Decal(), {0.8f,0.8f}, m_tint);
+		if (blockTime > 0.)
+		{
+			pge->DrawDecal(m_pos, m_imageCursor.Decal(), { 1.f, 1.f }, olc::DARK_GREY );
+			return;
+		}
+
+		pge->DrawDecal(m_pos, m_imageCursor.Decal(), {1.f,1.f});
 	}
 
 	olc::Pixel getColor()
 	{
 		return m_tint;
+	}
+
+	void block()
+	{
+		blockTime = 1.;
 	}
 
 private:
@@ -30,5 +41,7 @@ private:
 	olc::Pixel m_tint;
 	Input m_input;
 	double m_speed{ 0 };
+
+	double blockTime{0.};
 };
 

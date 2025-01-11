@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <numeric>
 #include <ranges>
+#include "Helper.h"
 
 namespace
 {
@@ -8,9 +9,13 @@ namespace
 	constexpr double maxPlayerBeschleunigung{ 500. };
 }
 
-
 std::optional<olc::vd2d> Player::handleInput(olc::PixelGameEngine* pge, float fElapsedTime)
 {
+	if (blockTime > 0.)
+	{
+		blockTime -= fElapsedTime;
+		return std::nullopt;
+	}
 	if (m_input.isMoving())
 	{
 		m_speed = m_speed < maxPlayerSpeed ? m_speed + maxPlayerBeschleunigung * fElapsedTime : maxPlayerSpeed;
@@ -27,7 +32,7 @@ std::optional<olc::vd2d> Player::handleInput(olc::PixelGameEngine* pge, float fE
 	}
 	if (m_input.isActionButtonPressed())
 	{
-		return m_pos;
+		return m_pos + calcCenter(m_imageCursor);
 	}
 	return std::nullopt;
 }

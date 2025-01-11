@@ -134,6 +134,9 @@
     <ClCompile Include="AufAuf.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelFindWecker.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="olcPGEX_GamePad.cpp" />
     <ClCompile Include="olcPGEX_Sound.cpp" />
     <ClCompile Include="olcPGEX_SplashScreen.cpp" />
@@ -144,7 +147,11 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelFindWecker.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RandomMovePos.h" />
   </ItemGroup>
