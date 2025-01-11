@@ -6,8 +6,8 @@
 class Player
 {
 public:
-	Player(const std::array<KeyBinding, 5>& keyBindings, olc::Pixel tint) 
-		:	m_keys{ keyBindings },
+	Player(const Input& keyBindings, olc::Pixel tint)
+		: m_input{ keyBindings },
 			m_tint{tint}
 	{
 		m_imageCursor.Load("assets\\Hand.png");
@@ -28,7 +28,7 @@ private:
 	olc::Renderable m_imageCursor;
 	olc::vd2d m_pos{100,100};
 	olc::Pixel m_tint;
-	std::array<KeyBinding, 5> m_keys;
+	Input m_input;
 	double m_speed{ 0 };
 };
 

@@ -11,26 +11,21 @@ namespace
 
 std::optional<olc::vd2d> Player::handleInput(olc::PixelGameEngine* pge, float fElapsedTime)
 {
-	if (std::ranges::none_of(m_keys, [&](const auto& binding) {return pge->GetKey(binding.key).bHeld;}))
-	{
-		m_speed = 0;
-	}
-	else
+	if (m_input.isMoving())
 	{
 		m_speed = m_speed < maxPlayerSpeed ? m_speed + maxPlayerBeschleunigung * fElapsedTime : maxPlayerSpeed;
 	}
+	else
+	{
+		m_speed = 0;
+	}
 
-	olc::vd2d dir = std::reduce(std::begin(m_keys), std::end(m_keys), olc::vd2d{ 0.,0. },
-		[&](olc::vd2d dir, const auto& binding)
-		{
-			return dir + (pge->GetKey(binding.key).bHeld ? binding.dir : olc::vd2d{ 0., 0. });
-		}
-	);
+	olc::vd2d dir = m_input.getMoveDir();
 	if (dir != olc::vd2d{ 0.,0. })
 	{
 		m_pos += dir.norm() * m_speed * fElapsedTime;
 	}
-	if (pge->GetKey(m_keys.back().key).bPressed)
+	if (m_input.isActionButtonPressed())
 	{
 		return m_pos;
 	}

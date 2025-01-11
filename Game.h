@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "extensions\olcPGEX_Sound.h"
 #include "olcPixelGameEngine.h"
+#include "olcPGEX_Gamepad/olcPGEX_Gamepad.h"
 
 #pragma once
 class Game : public olc::PixelGameEngine
@@ -32,5 +33,7 @@ private:
 	std::optional<int> m_win{ std::nullopt };
 
 	olc::SplashScreen spash;
+
+	olc::GamePad* gamepad = nullptr;
 };
 
