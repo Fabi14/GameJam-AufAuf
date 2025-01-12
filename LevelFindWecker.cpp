@@ -14,7 +14,9 @@ bool LevelFindWecker::OnUserCreate()
 	m_weckerPos = RandomMovePos{ m_imageWecker.Sprite()->Size() };
 
 	audioSamplehungrysheep = olc::SOUND::LoadAudioSample("assets\\hungrysheep-61124.wav");
-	olc::SOUND::PlaySample(audioSamplehungrysheep,true);
+	audioSampleArlarmClock = olc::SOUND::LoadAudioSample("assets\\monoalarm.wav");
+	audioSampleTimer = olc::SOUND::LoadAudioSample("assets\\kitchen-timer.wav");
+	StartSheepSounds();
     return true;
 }
 
@@ -26,6 +28,10 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 		return nullptr;
 	}
 	timer -= fElapsedTime;
+	if (timer < 10.)
+	{
+		olc::SOUND::PlaySample(audioSampleTimer);
+	}
 	if (timer < 0.)
 	{
 		auto scoreBoard = std::make_unique<Scoreboard>(m_pge);
@@ -33,7 +39,7 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 
 		using namespace std::views;
 		scoreBoard->addPoints(m_pge->m_vecPlayer | transform([](const auto& p) {return Score{ p->getPoints(), p->getColor() }; }) | std::ranges::to<std::vector>());
-		olc::SOUND::StopSample(audioSamplehungrysheep);
+		StopSheepStartAlarmSound();
 		return scoreBoard;
 	}
 
@@ -83,6 +89,9 @@ void LevelFindWecker::onDraw()
 			olc::vf2d scale = sheepPos.getDir().x < 0 ? olc::vf2d{ -1.f,1.f } : olc::vf2d{ 1.f, 1.f };
 			m_pge->DrawDecal(sheepPos.getPos() - offset, m_imageSheep.Decal(), scale);
 		}
+		StartSheepSounds();
+	
+		m_pge->DrawStringDecal(olc::vd2d{ 700.,1000. }, "Find the alarm clock!", olc::DARK_GREY, { 5.f,5.f });
 	}
 	for (const auto& [i,player] : std::views::enumerate(m_pge->m_vecPlayer))
 	{
@@ -92,6 +101,7 @@ void LevelFindWecker::onDraw()
 
 	if (m_win)
 	{
+		StopSheepStartAlarmSound();
 		m_pge->DrawStringDecal({ 800.,300. }, "WIN", m_pge->m_vecPlayer[*m_win]->getColor(), {20.,20.});
 
 		m_pge->DrawStringDecal(olc::vd2d{ 900.,1000. }, "SPACE", olc::DARK_GREY, { 5.f,5.f });
@@ -104,4 +114,24 @@ void LevelFindWecker::onDraw()
 		}
 	}
 	m_pge->DrawStringDecal(olc::vd2d{ 900.,50. }, std::to_string(timer), olc::DARK_GREY, {5.f,5.f});
+}
+
+void LevelFindWecker::StopSheepStartAlarmSound()
+{
+	if (isSheepAudioRunning)
+	{
+		olc::SOUND::PlaySample(audioSampleArlarmClock, false);
+		olc::SOUND::StopSample(audioSamplehungrysheep);
+
+		isSheepAudioRunning = false;
+	}
+}
+
+void LevelFindWecker::StartSheepSounds()
+{
+	if (!isSheepAudioRunning)
+	{
+		olc::SOUND::PlaySample(audioSamplehungrysheep, true);
+		isSheepAudioRunning = true;
+	}
 }

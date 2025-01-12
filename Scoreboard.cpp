@@ -32,6 +32,8 @@ std::unique_ptr<Level> Scoreboard::OnUserUpdate(float fElapsedTime)
     m_pge->Clear(olc::BLACK);
     m_pge->DrawDecal(olc::vd2d{ 0.,0. }, m_pge->m_imageRoom.Decal());
 
+    m_pge->DrawStringDecal(olc::vd2d{ 900.,1000. }, "SPACE", olc::DARK_GREY, { 5.f,5.f });
+
     for (const auto& [i, score] : std::views::enumerate(scores))
     {
         m_pge->DrawStringDecal({ 800.f,500.f + 100.f * i }, std::to_string(score.points), score.color, {10.f,10.f});

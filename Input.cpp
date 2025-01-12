@@ -24,15 +24,26 @@ bool Input::isMoving()
 
 olc::vd2d InputGamePad::getMoveDir()
 {
+	if (gamepad)
+	{
+		return gamepad->getAxis(olc::GPAxes::LX) * olc::vd2d{ 1.,0. }
+		+ gamepad->getAxis(olc::GPAxes::LY) * olc::vd2d{ 0.,1. };
+	}
 	return olc::vd2d();
 }
 
 bool InputGamePad::isActionButtonPressed()
 {
-	return false;
+	if (gamepad == nullptr || !gamepad->stillConnected) {
+		gamepad = olc::GamePad::selectWithButton(olc::GPButtons::FACE_R);
+		return gamepad;
+	}
+	return gamepad->getButton(olc::GPButtons::FACE_R).bPressed;
 }
 
-bool InputGamePad::isMoving()
+bool InputGamePad::isMoving() 
 {
-	return false;
+	auto dir = getMoveDir();
+	auto dir2 = dir * dir;
+	return dir2.x > 0.0001 || dir2.y >0.0001;
 }

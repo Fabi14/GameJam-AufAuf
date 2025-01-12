@@ -4,7 +4,7 @@
 int main()
 {
 	Game demo;
-	if (demo.Construct(GameSettings::gameW, GameSettings::gameH, 1, 1,true))
+	if (demo.Construct(GameSettings::gameW, GameSettings::gameH, 1, 1))
 		demo.Start();
 	return 0;
 }

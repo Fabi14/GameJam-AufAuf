@@ -2,6 +2,7 @@
 #include <array>
 #include <variant>
 #include <olcPixelGameEngine.h>
+#include "olcPGEX_Gamepad/olcPGEX_Gamepad.h"
 
 struct KeyBindingMove
 {
@@ -39,30 +40,38 @@ const KeyBinding KeyBinding_Arrows
 	KeyBindingAction{olc::Key::NP0}
 };
 
+class IInput
+{
+public:
+	virtual olc::vd2d getMoveDir() = 0;
+	virtual bool isActionButtonPressed() = 0;
+	virtual bool isMoving() = 0;
+};
 
-class Input
+class Input : public IInput
 {
 public:
 	Input(KeyBinding keyBindings, olc::PixelGameEngine* pge) :m_keyBindings{ keyBindings }, m_pge{pge} {};
 
-	olc::vd2d getMoveDir();
-	bool isActionButtonPressed();
-	bool isMoving();
+	olc::vd2d getMoveDir() override;
+	bool isActionButtonPressed() override;
+	bool isMoving() override;
 
 private:
 	KeyBinding m_keyBindings;
 	olc::PixelGameEngine* m_pge;
 };
 
-class InputGamePad
+class InputGamePad : public IInput
 {
 public:
 	InputGamePad(olc::PixelGameEngine* pge) : m_pge{ pge } {};
 
-	olc::vd2d getMoveDir();
-	bool isActionButtonPressed();
-	bool isMoving();
+	olc::vd2d getMoveDir() override;
+	bool isActionButtonPressed() override;
+	bool isMoving() override;
 
 private:
+	olc::GamePad* gamepad = nullptr;
 	olc::PixelGameEngine* m_pge;
 };

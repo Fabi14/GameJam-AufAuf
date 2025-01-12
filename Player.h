@@ -6,8 +6,8 @@
 class Player
 {
 public:
-	Player(const Input& keyBindings, olc::Pixel tint, std::string imagePath, olc::vd2d pos)
-		: m_input{ keyBindings },
+	Player(std::unique_ptr<IInput>&& keyBindings, olc::Pixel tint, std::string imagePath, olc::vd2d pos)
+		: m_pInput{ std::move(keyBindings) },
 		m_pos{pos},
 		m_tint{tint}
 	{
@@ -51,7 +51,7 @@ private:
 	olc::Renderable m_imageCursor;
 	olc::vd2d m_pos{100,100};
 	olc::Pixel m_tint;
-	Input m_input;
+	std::unique_ptr<IInput> m_pInput;
 	double m_speed{ 0 };
 	bool m_isActive{ false };
 

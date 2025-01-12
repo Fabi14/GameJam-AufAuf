@@ -19,7 +19,7 @@ std::optional<olc::vd2d> Player::handleInput(olc::PixelGameEngine* pge, float fE
 			blockTime -= fElapsedTime;
 			return std::nullopt;
 		}
-		if (m_input.isMoving())
+		if (m_pInput->isMoving())
 		{
 			m_speed = m_speed < maxPlayerSpeed ? m_speed + maxPlayerBeschleunigung * fElapsedTime : maxPlayerSpeed;
 		}
@@ -28,7 +28,7 @@ std::optional<olc::vd2d> Player::handleInput(olc::PixelGameEngine* pge, float fE
 			m_speed = 0;
 		}
 
-		olc::vd2d dir = m_input.getMoveDir();
+		olc::vd2d dir = m_pInput->getMoveDir();
 		if (dir != olc::vd2d{ 0.,0. })
 		{
 			m_pos += dir.norm() * m_speed * fElapsedTime;
@@ -38,7 +38,7 @@ std::optional<olc::vd2d> Player::handleInput(olc::PixelGameEngine* pge, float fE
 			m_pos.y = m_pos.y > GameSettings::gameH ? GameSettings::gameH : m_pos.y;
 		}
 	}
-	if (m_input.isActionButtonPressed())
+	if (m_pInput->isActionButtonPressed())
 	{
 		return m_pos;
 	}

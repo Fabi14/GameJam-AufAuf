@@ -14,6 +14,10 @@ public:
 private:
 	void onDraw();
 
+	void StopSheepStartAlarmSound();
+
+	void StartSheepSounds();
+
 	
 	olc::Renderable m_imageSheep;
 	olc::Renderable m_imageWecker;
@@ -26,5 +30,10 @@ private:
 	double timer{ 60. };
 
 	int audioSamplehungrysheep{ -1 };
+	bool isSheepAudioRunning{ false };
+
+	int audioSampleArlarmClock{ -1 };
+
+	int audioSampleTimer{ -1 };
 };
 

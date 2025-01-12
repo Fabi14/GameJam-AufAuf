@@ -11,6 +11,9 @@ public:
 	virtual std::unique_ptr<Level> OnUserUpdate(float fElapsedTime) override;
 
 private:
+	olc::Renderable m_imageInputWASD;
+	olc::Renderable m_imageInputArrows;
+
 	bool m_canStart{ false };
 };
 
