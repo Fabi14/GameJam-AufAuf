@@ -3,19 +3,22 @@
 #include "Game.h"
 #include <ranges>
 #include "Scoreboard.h"
+#include "GameSettings.h"
 
 bool LevelFindWecker::OnUserCreate()
 {
 
 	m_imageSheep.Load("assets\\Sheep1.png");
 	m_imageWecker.Load("assets\\Wecker1.png");
+	m_imageFindTheAlarm.Load("assets\\Textbox.png");
+	m_imageTimer.Load("assets\\TimeBox.png");
 
 	std::generate_n(std::back_inserter(m_vecSheepPos), 100, [&]() {return RandomMovePos{ m_imageSheep.Sprite()->Size() }; });
 	m_weckerPos = RandomMovePos{ m_imageWecker.Sprite()->Size() };
 
 	audioSamplehungrysheep = olc::SOUND::LoadAudioSample("assets\\hungrysheep-61124.wav");
 	audioSampleArlarmClock = olc::SOUND::LoadAudioSample("assets\\monoalarm.wav");
-	audioSampleTimer = olc::SOUND::LoadAudioSample("assets\\kitchen-timer.wav");
+	//audioSampleTimer = olc::SOUND::LoadAudioSample("assets\\kitchen-timer.wav");
 	StartSheepSounds();
     return true;
 }
@@ -28,17 +31,19 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 		return nullptr;
 	}
 	timer -= fElapsedTime;
-	if (timer < 10.)
-	{
-		olc::SOUND::PlaySample(audioSampleTimer);
-	}
+	//if (timer < 10.)
+	//{
+	//	olc::SOUND::PlaySample(audioSampleTimer);
+	//}
 	if (timer < 0.)
 	{
 		auto scoreBoard = std::make_unique<Scoreboard>(m_pge);
 		scoreBoard->OnUserCreate();
 
 		using namespace std::views;
-		scoreBoard->addPoints(m_pge->m_vecPlayer | transform([](const auto& p) {return Score{ p->getPoints(), p->getColor() }; }) | std::ranges::to<std::vector>());
+		scoreBoard->addPoints(m_pge->m_vecPlayer 
+			| transform([](const auto& p) {return Score{ p->getPoints(), p->getColor() }; }) 
+			| std::ranges::to<std::vector>());
 		StopSheepStartAlarmSound();
 		return scoreBoard;
 	}
@@ -91,12 +96,13 @@ void LevelFindWecker::onDraw()
 		}
 		StartSheepSounds();
 	
-		m_pge->DrawStringDecal(olc::vd2d{ 700.,1000. }, "Find the alarm clock!", olc::DARK_GREY, { 5.f,5.f });
+		m_pge->DrawDecal({ 0.f, 0.f }, m_imageFindTheAlarm.Decal());
+		//m_pge->DrawStringDecal(olc::vd2d{ 700.,900. }, "Find the alarm clock!", olc::DARK_GREY, { 5.f,5.f });
 	}
 	for (const auto& [i,player] : std::views::enumerate(m_pge->m_vecPlayer))
 	{
 		player->onDraw(m_pge);
-		m_pge->DrawStringDecal({ 100.f+500.f*i,1000.f }, std::to_string(player->getPoints()), player->getColor(), {10.,10.});
+		player->drawPoints(m_pge, i);
 	}
 
 	if (m_win)
@@ -113,12 +119,13 @@ void LevelFindWecker::onDraw()
 			std::generate_n(std::back_inserter(m_vecSheepPos), 20, [&]() {return RandomMovePos{ m_imageSheep.Sprite()->Size() }; });
 		}
 	}
-	m_pge->DrawStringDecal(olc::vd2d{ 900.,50. }, std::to_string(timer), olc::DARK_GREY, {5.f,5.f});
+	m_pge->DrawDecal(olc::vf2d{ 1120.f,0.f }, m_imageTimer.Decal());
+	m_pge->DrawStringDecal(olc::vf2d{ 1300.f,100.f-20.f }, std::to_string(timer), olc::BLACK, {6.f,6.f});
 }
 
 void LevelFindWecker::StopSheepStartAlarmSound()
 {
-	if (isSheepAudioRunning)
+	if(isSheepAudioRunning)
 	{
 		olc::SOUND::PlaySample(audioSampleArlarmClock, false);
 		olc::SOUND::StopSample(audioSamplehungrysheep);

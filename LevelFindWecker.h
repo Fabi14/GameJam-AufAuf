@@ -22,6 +22,9 @@ private:
 	olc::Renderable m_imageSheep;
 	olc::Renderable m_imageWecker;
 
+	olc::Renderable m_imageFindTheAlarm;
+	olc::Renderable m_imageTimer;
+
 	std::vector<RandomMovePos> m_vecSheepPos;
 	std::optional<RandomMovePos> m_weckerPos;
 
@@ -34,6 +37,6 @@ private:
 
 	int audioSampleArlarmClock{ -1 };
 
-	int audioSampleTimer{ -1 };
+	//int audioSampleTimer{ -1 };
 };
 

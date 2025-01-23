@@ -13,5 +13,6 @@ public:
 
 private:
 	olc::Renderable m_imageTitle;
+	olc::Renderable m_imageCredits;
 };
 

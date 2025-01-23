@@ -13,6 +13,7 @@ public:
 private:
 	olc::Renderable m_imageInputWASD;
 	olc::Renderable m_imageInputArrows;
+	olc::Renderable m_imageInputController;
 
 	bool m_canStart{ false };
 };

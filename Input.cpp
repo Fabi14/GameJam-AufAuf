@@ -32,10 +32,27 @@ olc::vd2d InputGamePad::getMoveDir()
 	return olc::vd2d();
 }
 
+namespace
+{
+	std::vector<std::string> m_vecUsedIDs;
+}
+
 bool InputGamePad::isActionButtonPressed()
 {
 	if (gamepad == nullptr || !gamepad->stillConnected) {
 		gamepad = olc::GamePad::selectWithButton(olc::GPButtons::FACE_R);
+		if (gamepad)
+		{
+			auto id = gamepad->getId();
+			if (std::ranges::contains(m_vecUsedIDs, id))
+			{
+				gamepad = nullptr;
+			}
+			else
+			{
+				m_vecUsedIDs.push_back(id);
+			}
+		}
 		return gamepad;
 	}
 	return gamepad->getButton(olc::GPButtons::FACE_R).bPressed;

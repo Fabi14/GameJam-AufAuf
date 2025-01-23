@@ -54,3 +54,12 @@ void Player::onDraw(olc::PixelGameEngine* pge) const
 	}
 	pge->DrawDecal(m_pos- calcCenter(m_imageCursor), m_imageCursor.Decal(), { 1.f,1.f }, m_isActive ? olc::WHITE : olc::BLACK);
 }
+
+void Player::drawPoints(olc::PixelGameEngine* pge, int index) const
+{
+
+	auto boxSize = olc::vf2d{ static_cast<float>(m_imageScoreBackground.Sprite()->Size().x) ,static_cast<float>(m_imageScoreBackground.Sprite()->Size().y) };
+	auto boxPos = olc::vf2d{ 100.f + 500.f * index, static_cast<float>(GameSettings::gameH) - boxSize.y + 40.f };
+	pge->DrawDecal(boxPos, m_imageScoreBackground.Decal());
+	pge->DrawStringDecal(boxPos + boxSize / 2 - olc::vf2d{36.f,36.f}, std::to_string(getPoints()), getColor(), { 10.,10. });
+}

@@ -7,7 +7,7 @@ bool Game::OnUserCreate()
 {
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	m_imageRoom.Load("assets\\BedroomColor.png");
+	m_imageRoom.Load("assets\\BedroomColor1.png");
 
 	olc::GamePad::init();
 	m_currentLevel->OnUserCreate();
