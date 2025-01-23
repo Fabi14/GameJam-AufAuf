@@ -40,15 +40,11 @@ bool Game::OnUserUpdate(float fElapsedTime)
 	if (!gamepad->getButton(olc::GPButtons::FACE_D).bHeld) {
 		FillRect(10, 10, 30, 10, olc::WHITE * gamepad->getAxis(olc::GPAxes::TL));
 		DrawRect(10, 10, 30, 10, olc::RED);
-		return true;
 	}
 	else {
 		FillRect(10, 10, 30, 10, olc::WHITE * gamepad->getAxis(olc::GPAxes::TL));
 		DrawRect(10, 10, 30, 10, olc::BLUE);
-		return true;
 	}
-
-
 	return true;
 }
 

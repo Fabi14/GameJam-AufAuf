@@ -26,10 +26,6 @@ std::unique_ptr<Level> PlayerSelect::OnUserUpdate(float fElapsedTime)
     m_pge->Clear(olc::BLACK);
     m_pge->DrawDecal(olc::vd2d{ 0.,0. }, m_pge->m_imageRoom.Decal());
 
-    for (const auto& player : m_pge->m_vecPlayer)
-    {
-        player->onDraw(m_pge);
-    }
 
     //m_pge->DrawStringDecal({ 550.,400. }, "E", olc::GREY, {5.f,5.f});
     //m_pge->DrawStringDecal({ 750.,400. }, "NP0", olc::GREY, { 5.f,5.f });
@@ -39,10 +35,8 @@ std::unique_ptr<Level> PlayerSelect::OnUserUpdate(float fElapsedTime)
     m_pge->DrawDecal(olc::vf2d{ static_cast<float>(GameSettings::gameW) / 5.f * 4.f - static_cast<float>(m_imageInputController.Sprite()->Size().x) / 2.f, 600.f }, m_imageInputController.Decal());
 
 
-    for (const auto& player : m_pge->m_vecPlayer)
-    {
-        player->onDraw(m_pge);
-    }
+    std::ranges::for_each(m_pge->m_vecPlayer, [this](const auto& player) { player->onDraw(m_pge); });
+
     for (auto& player : m_pge->m_vecPlayer)
     {
         if (player->handleInput(m_pge, fElapsedTime))

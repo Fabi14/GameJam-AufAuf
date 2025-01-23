@@ -55,9 +55,9 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 	}
 	m_weckerPos->onUpdate(fElapsedTime);
 
-	for (int i = 0; i < m_pge->m_vecPlayer.size(); ++i)
+	for (const auto& [i,player] : std::views::enumerate(m_pge->m_vecPlayer) )
 	{
-		auto pos = m_pge->m_vecPlayer[i]->handleInput(m_pge, fElapsedTime);
+		auto pos = player->handleInput(m_pge, fElapsedTime);
 		if (pos)
 		{
 			auto min = m_weckerPos->getPos() - 0.5 * olc::vd2d{ static_cast<double>(m_imageWecker.Sprite()->width),static_cast<double>(m_imageWecker.Sprite()->height) };
@@ -66,11 +66,11 @@ std::unique_ptr<Level> LevelFindWecker::OnUserUpdate(float fElapsedTime)
 			{
 				timer += 5;
 				m_win = i;
-				m_pge->m_vecPlayer[i]->addPoint();
+				player->addPoint();
 			}
 			else
 			{
-				m_pge->m_vecPlayer[i]->block();
+				player->block();
 			}
 		} 
 	}

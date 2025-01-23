@@ -35,7 +35,7 @@ bool Scoreboard::OnUserCreate()
     return false;
 }
 
-std::unique_ptr<Level> Scoreboard::OnUserUpdate(float fElapsedTime)
+std::unique_ptr<Level> Scoreboard::OnUserUpdate(float /*fElapsedTime*/)
 {
     if (m_pge->GetKey(olc::SPACE).bPressed)
     {

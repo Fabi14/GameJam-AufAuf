@@ -13,7 +13,6 @@ struct KeyBindingMove
 struct KeyBindingAction
 {
 	olc::Key key;
-	//Action
 };
 
 struct KeyBinding
@@ -43,6 +42,7 @@ const KeyBinding KeyBinding_Arrows
 class IInput
 {
 public:
+	virtual ~IInput() = default;
 	virtual olc::vd2d getMoveDir() = 0;
 	virtual bool isActionButtonPressed() = 0;
 	virtual bool isMoving() = 0;
